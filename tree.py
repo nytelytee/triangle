@@ -40,16 +40,16 @@ class NormalNode(Generic[IdentifierType, DataType]):
         yield self
         yield from self.horizontal.walk_dfs_pre() if self.horizontal else ()
         yield from self.vertical.walk_dfs_pre() if self.vertical else ()
-    
+
     def walk_dfs_post(
         self, /,
     ) -> Generator[NormalNode[IdentifierType, DataType], None, None]:
         yield from self.horizontal.walk_dfs_post() if self.horizontal else ()
         yield from self.vertical.walk_dfs_post() if self.vertical else ()
         yield self
-    
+
     walk_dfs = walk_dfs_pre
-    
+
     def walk_bfs(
         self, /,
     ) -> Generator[NormalNode[IdentifierType, DataType], None, None]:
@@ -64,7 +64,6 @@ class NormalNode(Generic[IdentifierType, DataType]):
         Optional[NormalNode[IdentifierType, DataType]]
     ]:
         return (self.horizontal, self.vertical)
-    
 
 
 # Not actually a real node (does not have any triangles attached to it)
@@ -96,19 +95,19 @@ class SideNode(Generic[IdentifierType, DataType]):
         self, /,
     ) -> Generator[NormalNode[IdentifierType, DataType], None, None]:
         yield from self.horizontal.walk_dfs_pre() if self.horizontal else ()
-    
+
     def walk_dfs_post(
         self, /,
     ) -> Generator[NormalNode[IdentifierType, DataType], None, None]:
         yield from self.horizontal.walk_dfs_post() if self.horizontal else ()
 
     walk_dfs = walk_dfs_pre
-    
+
     def walk_bfs(
         self, /,
     ) -> Generator[NormalNode[IdentifierType, DataType], None, None]:
         yield from self.horizontal.walk_bfs() if self.horizontal else ()
-    
+
 
 @final
 @dataclass
@@ -154,7 +153,7 @@ class BaseNode(Generic[IdentifierType, DataType]):
         yield from (self.right.horizontal.walk_dfs_pre()
                     if self.right.horizontal else
                     ())
-    
+
     def walk_dfs_post(
         self, /
     ) -> Generator[
@@ -170,9 +169,9 @@ class BaseNode(Generic[IdentifierType, DataType]):
                     if self.right.horizontal else
                     ())
         yield self
-    
+
     walk_dfs = walk_dfs_pre
-    
+
     def walk_bfs(
         self, /,
     ) -> Generator[
@@ -222,7 +221,7 @@ class ZeroNode(Generic[IdentifierType, DataType]):
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:
         yield self
         yield from self.base.walk_dfs_pre() if self.base else ()
-    
+
     def walk_dfs_post(
         self, /,
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:
@@ -230,7 +229,7 @@ class ZeroNode(Generic[IdentifierType, DataType]):
         yield self
 
     walk_dfs = walk_dfs_pre
-    
+
     def walk_bfs(
         self, /,
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:
@@ -238,7 +237,7 @@ class ZeroNode(Generic[IdentifierType, DataType]):
         while queue:
             yield (element := queue.popleft())
             queue.extend(c for c in element.children if c is not None)
-    
+
     @property
     def children(self) -> tuple[Optional[BaseNode[IdentifierType, DataType]]]:
         return (self.base,)
@@ -264,7 +263,7 @@ CSideNode: TypeAlias = SideNode[ContextualizedIdentifier, DataType]
 class TriangleSideTree(Generic[IdentifierType, DataType]):
 
     zero: ZeroNode[IdentifierType, DataType]
-    
+
     def walk_dfs_pre(
         self, /,
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:
@@ -276,7 +275,7 @@ class TriangleSideTree(Generic[IdentifierType, DataType]):
         yield from self.zero.walk_dfs_post()
 
     walk_dfs = walk_dfs_pre
-    
+
     def walk_bfs(
         self, /,
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:

@@ -100,7 +100,6 @@ class ColorDataDrawer(MPLDrawer[ColorData[Any]]):
     base_right_arc_data_index: ClassVar[int] = 1
     segment_data_index: ClassVar[int] = 1
 
-
     def draw_triangle(self, /, node: CRealNode[ColorData[Any]]) -> None:
         index = self.triangle_data_index % len(node.data)
         self.ax.fill(*node.shapes.triangle.draw_coords,

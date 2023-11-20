@@ -8,9 +8,10 @@ from tree import (BaseNode, CBaseNode, CNormalNode, CRealNode, CZeroNode,
 from util import SideType
 
 if TYPE_CHECKING:
-    from data import Data
-    from matplotlib.figure import Figure
     from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+
+    from data import Data
 
 
 DataType = TypeVar('DataType', bound='Data', contravariant=True)
@@ -191,6 +192,7 @@ class DefaultTreeFilters(FilteringDrawer[DataType]):
     def draw_tree(self) -> None:
         for obj in self.tree.walk_dfs():
             self.node(obj)
+
 
 class MPLDrawer(DefaultTreeFilters[DataType]):
     def __init__(

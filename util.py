@@ -579,7 +579,6 @@ class Subtimers:
                     self.last_printed_line = content
 
 
-
 T = TypeVar('T')
 
 

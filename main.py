@@ -1,28 +1,33 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from typing import Literal, Optional, TYPE_CHECKING, Any
-from data import Data
 from itertools import chain
+from typing import TYPE_CHECKING, Any, Literal, Optional
 
-from mpmath import mp  # type: ignore[import-untyped]
 import mpmath
+from mpmath import mp  # type: ignore[import-untyped]
 
-from example_data import PFP, PFP2
+from data import Data
 from drawer import MPLDrawer
+from example_data import PFP, PFP2
 from example_drawers import (ColorDataDrawerWithSymbolAlt,
-                             ColorDataDrawerWithSymbolMain, KyzaDrawer, ExampleRandomHPLuvColorDrawer, ExampleFixedColorDrawer)
+                             ColorDataDrawerWithSymbolMain,
+                             ExampleFixedColorDrawer,
+                             ExampleRandomHPLuvColorDrawer, KyzaDrawer)
 from triangle_side import TriangleSide
-from util import (STEP_BASE, STEP_HORIZONTAL, STEP_NONBASE, STEP_LEFT, STEP_RIGHT, AngleID, Subtimers,
-                  TriangleSideType)
+from util import (STEP_BASE, STEP_HORIZONTAL, STEP_LEFT, STEP_NONBASE,
+                  STEP_RIGHT, AngleID, Subtimers, TriangleSideType)
+
 if TYPE_CHECKING:
     from util import RealNumber
+
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 mp.prec = 100
 radius = 1
+
 
 def get_angles(
     angle1: RealNumber, angle2: RealNumber,
@@ -107,7 +112,7 @@ def process_picture(
     b_steps: tuple[tuple[int, int], ...] = (),
     c_steps: tuple[tuple[int, int], ...] = (),
     drawer: type[MPLDrawer[Any]],
-    angles: tuple[RealNumber, RealNumber, RealNumber], 
+    angles: tuple[RealNumber, RealNumber, RealNumber],
     right_angle: Optional[AngleID] = None,
 ) -> None:
     # theta A, theta B, theta C
@@ -153,6 +158,7 @@ def process_picture(
     with timers.pushed('saving'):
         fig.savefig(f"output/output_{name}.png", pad_inches=0)
 
+
 SETUPS = {
     'main': {
         'drawer': ColorDataDrawerWithSymbolMain,
@@ -192,11 +198,12 @@ SETUPS = {
     },
 }
 
+
 def main(setup: str) -> None:
     assert setup in SETUPS
     with Subtimers() as timers, timers.pushed(setup):
         process_picture(timers, setup, **SETUPS[setup])
-    
+
 
 if __name__ == '__main__':
     possible_setups = ', '.join(SETUPS)
