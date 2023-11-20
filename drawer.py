@@ -9,6 +9,8 @@ from util import SideType
 
 if TYPE_CHECKING:
     from data import Data
+    from matplotlib.figure import Figure
+    from matplotlib.axes import Axes
 
 
 DataType = TypeVar('DataType', bound='Data', contravariant=True)
@@ -189,3 +191,16 @@ class DefaultTreeFilters(FilteringDrawer[DataType]):
     def draw_tree(self) -> None:
         for obj in self.tree.walk_dfs():
             self.node(obj)
+
+class MPLDrawer(DefaultTreeFilters[DataType]):
+    def __init__(
+        self, /,
+        fig: Figure,
+        ax: Axes,
+        tree: TriangleSideTree[ContextualizedIdentifier, DataType],
+        *, draw_zero: bool = False,
+    ) -> None:
+        self.fig = fig
+        self.ax = ax
+        self.tree = tree
+        self.draw_zero = draw_zero

@@ -17,7 +17,7 @@ from matplotlib.path import Path
 from basic_data import ColorData
 from basic_drawers import ColorDataDrawer, ColorDrawer
 from colors import Color, ColorHPLuv, ColorHSL
-from drawer import DefaultTreeFilters
+from drawer import MPLDrawer
 from identifier import ContextualizedIdentifier, Identifier
 from shapes import Point, Triangle
 from tree import CBaseNode, CNormalNode, CRealNode, CZeroNode, TriangleSideTree
@@ -91,7 +91,7 @@ class ExampleFixedColorDrawer(ColorDrawer):
 ColorType = TypeVar('ColorType', bound=Color, covariant=True)
 
 
-class OutlineDrawer(DefaultTreeFilters[Never]):
+class OutlineDrawer(MPLDrawer[Never]):
 
     def __init__(
         self, fig: Figure, ax: Axes, /,
@@ -149,7 +149,7 @@ class OutlineDrawer(DefaultTreeFilters[Never]):
         self.ax.add_patch(patch)
 
 
-class KyzaDrawer(DefaultTreeFilters[Never], Generic[ColorType]):
+class KyzaDrawer(MPLDrawer[Never], Generic[ColorType]):
 
     subdivision_dict: Mapping[
         LookupKeyType,

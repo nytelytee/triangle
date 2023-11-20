@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, ClassVar, Never
 
 from basic_data import ColorData
-from drawer import DefaultTreeFilters
+from drawer import MPLDrawer
 from identifier import ContextualizedIdentifier
 from tree import CBaseNode, CNormalNode, CRealNode, CZeroNode, TriangleSideTree
 
@@ -14,22 +14,12 @@ if TYPE_CHECKING:
     from util import MPLColor, RealNumber
 
 
-class ColorDrawer(DefaultTreeFilters[Never]):
+class ColorDrawer(MPLDrawer[Never]):
 
     fig: Figure
     ax: Axes
     draw_zero: bool
     radius: RealNumber
-
-    def __init__(
-        self, fig: Figure, ax: Axes, /,
-        tree: TriangleSideTree[ContextualizedIdentifier, Never],
-        *, draw_zero: bool = False
-    ):
-        self.fig = fig
-        self.ax = ax
-        self.tree = tree
-        self.draw_zero = draw_zero
 
     def choose_triangle_color(self, /, node: CRealNode[Never]) -> MPLColor:
         raise NotImplementedError
@@ -95,7 +85,7 @@ class ColorDrawer(DefaultTreeFilters[Never]):
                      facecolor=self.choose_segment_color(node))
 
 
-class ColorDataDrawer(DefaultTreeFilters[ColorData[Any]]):
+class ColorDataDrawer(MPLDrawer[ColorData[Any]]):
 
     fig: Figure
     ax: Axes
@@ -110,15 +100,6 @@ class ColorDataDrawer(DefaultTreeFilters[ColorData[Any]]):
     base_right_arc_data_index: ClassVar[int] = 1
     segment_data_index: ClassVar[int] = 1
 
-    def __init__(
-        self, fig: Figure, ax: Axes, /,
-        tree: TriangleSideTree[ContextualizedIdentifier, ColorData[Any]],
-        *, draw_zero: bool = False
-    ):
-        self.fig = fig
-        self.ax = ax
-        self.tree = tree
-        self.draw_zero = draw_zero
 
     def draw_triangle(self, /, node: CRealNode[ColorData[Any]]) -> None:
         index = self.triangle_data_index % len(node.data)
@@ -170,7 +151,7 @@ class ColorDataDrawer(DefaultTreeFilters[ColorData[Any]]):
                      facecolor=node.data[index].color.to_hex())
 
 
-class AlternatingColorDataDrawer(DefaultTreeFilters[ColorData[Any]]):
+class AlternatingColorDataDrawer(MPLDrawer[ColorData[Any]]):
 
     fig: Figure
     ax: Axes
@@ -184,16 +165,6 @@ class AlternatingColorDataDrawer(DefaultTreeFilters[ColorData[Any]]):
     base_left_arc_offset: ClassVar[int] = 1
     base_right_arc_offset: ClassVar[int] = 1
     segment_offset: ClassVar[int] = 1
-
-    def __init__(
-        self, fig: Figure, ax: Axes, /,
-        tree: TriangleSideTree[ContextualizedIdentifier, ColorData[Any]],
-        *, draw_zero: bool = False
-    ):
-        self.fig = fig
-        self.ax = ax
-        self.tree = tree
-        self.draw_zero = draw_zero
 
     def draw_triangle(
         self, /, node: CRealNode[ColorData[Any]],
