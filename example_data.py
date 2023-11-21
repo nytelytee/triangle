@@ -19,7 +19,7 @@ class ExampleColorDataWeights(ColorData[ColorRGB]):
 
 
 purple = ColorRGB.from_hex('#270627')
-green = ColorRGB.from_hex('#e8f9e8')
+green = ColorRGB.from_hex('#d0ffd0')
 white = ColorRGB.from_hex('#ffffff')
 
 
