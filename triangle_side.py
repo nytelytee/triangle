@@ -50,7 +50,7 @@ class TriangleSide(Generic[DataType]):
     @overload
     def __init__(
         self: TriangleSide[Never],
-        _type: TriangleSideType, theta_A: RealNumber,
+        type: TriangleSideType, theta_A: RealNumber,
         theta_B: RealNumber, theta_C: RealNumber,
         /,
         right_angle: Optional[AngleID], radius: RealNumber = ...,
@@ -61,7 +61,7 @@ class TriangleSide(Generic[DataType]):
     @overload
     def __init__(
         self: TriangleSide[DataType],
-        _type: TriangleSideType, theta_A: RealNumber,
+        type: TriangleSideType, theta_A: RealNumber,
         theta_B: RealNumber, theta_C: RealNumber,
         /,
         right_angle: Optional[AngleID], radius: RealNumber = ...,
@@ -72,7 +72,7 @@ class TriangleSide(Generic[DataType]):
 
     def __init__(
         self,
-        _type: TriangleSideType, theta_A: RealNumber,
+        type: TriangleSideType, theta_A: RealNumber,
         theta_B: RealNumber, theta_C: RealNumber,
         /,
         right_angle: Optional[AngleID], radius: RealNumber = 1,
@@ -81,7 +81,7 @@ class TriangleSide(Generic[DataType]):
                tuple[Type[DataType], *tuple[Type[DataType], ...]]) = (),
     ) -> None:
 
-        self.type = _type
+        self.type = type
         angles = {AngleID.A: theta_A, AngleID.B: theta_B, AngleID.C: theta_C}
         rotation_angles = {TriangleSideType.A: theta_B - theta_C,
                            TriangleSideType.B: -theta_A - theta_C,
@@ -116,7 +116,7 @@ class TriangleSide(Generic[DataType]):
                        TriangleSideType.B: (B, C, A),
                        TriangleSideType.C: (C, A, B)}
 
-        zero_triangle = PositiveTriangle(*point_order[_type])
+        zero_triangle = PositiveTriangle(*point_order[self.type])
 
         self.side_to_height_ratio = (
             zero_triangle.right.x - zero_triangle.left.x
@@ -274,9 +274,7 @@ class TriangleSide(Generic[DataType]):
         return node.base
 
     def next_horizontal(
-        self,
-        node: ISideNode[DataType] | INormalNode[DataType],
-        /,
+        self, node: ISideNode[DataType] | INormalNode[DataType], /,
     ) -> INormalNode[DataType]:
         if node.horizontal is not None:
             return node.horizontal
@@ -370,9 +368,7 @@ class TriangleSide(Generic[DataType]):
         return node.vertical
 
     def _lookup_edge_children(
-        self,
-        node: Optional[IRealNode[DataType]],
-        /,
+        self, node: Optional[IRealNode[DataType]], /,
         result: list[IRealNode[DataType]],
     ) -> None:
 
@@ -477,9 +473,7 @@ class TriangleSide(Generic[DataType]):
         return returns
 
     def step(
-        self,
-        node: IRealNode[DataType],
-        /,
+        self, node: IRealNode[DataType], /,
         count: int = 1, flag: int = STEP_ALL,
         *, ignore_existing: bool = False,
     ) -> list[IBaseNode[DataType] | INormalNode[DataType]]:
@@ -507,7 +501,8 @@ class TriangleSide(Generic[DataType]):
         return new_nodes
 
     def finalized_tree(
-        self, /, rotate: RealNumber = 0,
+        self, /,
+        rotate: RealNumber = 0,
     ) -> TriangleSideTree[ContextualizedIdentifier, DataType]:
 
         final_tree = TriangleSideTree(ZeroNode(

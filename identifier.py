@@ -13,17 +13,17 @@ class Identifier:
     def pop_back(self, /) -> Self:
         return self.__class__(self.parts[:-1])
 
-    def push_back(self, value: int) -> Self:
+    def push_back(self, value: int, /) -> Self:
         return self.__class__((*self.parts, value))
 
     @property
-    def last_value(self, /) -> int:
+    def last_value(self) -> int:
         if not self.parts:
             return 0
         return self.parts[-1]
 
     @property
-    def last_type(self, /) -> IdentifierType:
+    def last_type(self) -> IdentifierType:
         if len(self.parts) == 0:
             return IdentifierType.ZERO
         if len(self.parts) == 1:

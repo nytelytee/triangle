@@ -4,8 +4,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Never
 
 from basic_data import ColorData
 from drawer import MPLDrawer
-from identifier import ContextualizedIdentifier
-from tree import CBaseNode, CNormalNode, CRealNode, CZeroNode, TriangleSideTree
+from tree import CBaseNode, CNormalNode, CRealNode, CZeroNode
 
 if TYPE_CHECKING:
     from matplotlib.axes import Axes

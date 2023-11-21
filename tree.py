@@ -77,7 +77,7 @@ class SideNode(Generic[IdentifierType, DataType]):
 
     @property
     def touching_vertical(
-        self
+        self,
     ) -> (
         BaseNode[IdentifierType, DataType] | ZeroNode[IdentifierType, DataType]
     ):
@@ -123,7 +123,7 @@ class BaseNode(Generic[IdentifierType, DataType]):
     right: SideNode[IdentifierType, DataType]
 
     def __init__(
-        self,
+        self, /,
         identifier: IdentifierType,
         shapes: BaseShapeCollection,
         data: tuple[DataType, ...],
@@ -139,7 +139,7 @@ class BaseNode(Generic[IdentifierType, DataType]):
         self.right = SideNode(SideType.RIGHT, self)
 
     def walk_dfs_pre(
-        self, /
+        self, /,
     ) -> Generator[
         BaseNode[IdentifierType, DataType] |
         NormalNode[IdentifierType, DataType],
@@ -155,7 +155,7 @@ class BaseNode(Generic[IdentifierType, DataType]):
                     ())
 
     def walk_dfs_post(
-        self, /
+        self, /,
     ) -> Generator[
         BaseNode[IdentifierType, DataType] |
         NormalNode[IdentifierType, DataType],
@@ -205,7 +205,7 @@ class ZeroNode(Generic[IdentifierType, DataType]):
     base: Optional[BaseNode[IdentifierType, DataType]] = None
 
     def __init__(
-        self,
+        self, /,
         identifier: IdentifierType,
         shapes: ZeroShapeCollection,
         data: tuple[DataType, ...],
@@ -281,7 +281,7 @@ class TriangleSideTree(Generic[IdentifierType, DataType]):
     ) -> Generator[RealNode[IdentifierType, DataType], None, None]:
         yield from self.zero.walk_dfs()
 
-    def __len__(self) -> int:
+    def __len__(self, /) -> int:
         c = count()
         deque(zip(self.walk_dfs(), c), maxlen=0)
         return next(c)

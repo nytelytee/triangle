@@ -106,7 +106,7 @@ class Point:
     def rotate270(self, /) -> Self:
         return self.__class__(self.y, -self.x)
 
-    def dot(self, *others: Point) -> RealNumber:
+    def dot(self, /, *others: Point) -> RealNumber:
         return (self.x*prod(map(attrgetter('x'), others)) +
                 self.y*prod(map(attrgetter('y'), others)))
 

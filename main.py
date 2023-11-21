@@ -4,8 +4,8 @@ from __future__ import annotations
 from itertools import chain
 from typing import TYPE_CHECKING, Any, Literal, Optional
 
-import mpmath
-from mpmath import mp  # type: ignore[import-untyped]
+import mpmath  # type: ignore[import-untyped]
+from mpmath import mp  # type: ignore[import-untyped, unused-ignore]
 
 from data import Data
 from drawer import MPLDrawer

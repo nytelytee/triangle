@@ -189,7 +189,7 @@ class DefaultTreeFilters(FilteringDrawer[DataType]):
     ) -> bool:
         return node.base is None
 
-    def draw_tree(self) -> None:
+    def draw_tree(self, /) -> None:
         for obj in self.tree.walk_dfs():
             self.node(obj)
 

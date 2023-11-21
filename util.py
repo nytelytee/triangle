@@ -10,15 +10,10 @@ from typing import (TYPE_CHECKING, Callable, Generator, Literal, Optional,
                     Protocol, Self, Sequence, TextIO, TypeAlias, TypeVar,
                     TypeVarTuple, cast, get_args, get_origin, overload)
 
-import mpmath  # type: ignore[import-untyped]
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from mpmath import mp  # type: ignore[import-untyped, unused-ignore]
 
 if TYPE_CHECKING:
-    from matplotlib.figure import Figure
-    from mpmath import mpf  # type: ignore[import-untyped, unused-ignore]
+    from mpmath import mpf  # type: ignore[import-untyped]
 
     from identifier import Identifier
     from shapes import Point
@@ -452,7 +447,7 @@ class Subtimers:
     ) -> Subtimers.SubtimerContextManager:
         return self.SubtimerContextManager(subtimer_name, self)
 
-    def pop(self) -> None:
+    def pop(self, /) -> None:
         if self.subtimer_types[-1] != 'manual':
             raise self.SubtimerError(
                 "Cannot pop context manager subtimer manaully."
@@ -612,7 +607,7 @@ def apply_unpacked(f: Callable[[*A], R], args: tuple[*A]) -> R:
     return f(*args)
 
 
-def offset_polygon(points: Sequence[Point], dist: float) -> list[Point]:
+def offset_polygon(points: Sequence[Point], dist: float, /) -> list[Point]:
     # this should work for all triangles, which is the only thing i
     # actually care about here, but it should work for polygons
     # generally, as long as their offset does not result in multiple
