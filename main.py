@@ -5,6 +5,9 @@ from itertools import chain
 from typing import TYPE_CHECKING, Any, Literal, Optional
 
 import mpmath  # type: ignore[import-untyped]
+from matplotlib import pyplot as plt
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 from mpmath import mp  # type: ignore[import-untyped, unused-ignore]
 
 from data import Data
@@ -21,9 +24,6 @@ from util import (STEP_BASE, STEP_HORIZONTAL, STEP_LEFT, STEP_NONBASE,
 if TYPE_CHECKING:
     from util import RealNumber
 
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
 
 mp.prec = 100
 radius = 1
@@ -115,7 +115,6 @@ def process_picture(
     angles: tuple[RealNumber, RealNumber, RealNumber],
     right_angle: Optional[AngleID] = None,
 ) -> None:
-    # theta A, theta B, theta C
     with timers.pushed('initializing'):
         a = TriangleSide(TriangleSideType.A, *angles, right_angle=right_angle,
                          data=(*side_data, *side_a_data))
